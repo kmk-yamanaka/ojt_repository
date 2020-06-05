@@ -17,6 +17,10 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long
 	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_delete FROM phone_book p", nativeQuery = true)
 	public List<PhoneBookEntity> findAll();
 
+	/**検索SQL*/
+	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_delete FROM phone_book p WHERE p.name = keyword", nativeQuery = true)
+	public List<PhoneBookEntity> findResult(String keyword);
+
 	/**削除SQL*/
 	@Modifying
 	@Transactional
