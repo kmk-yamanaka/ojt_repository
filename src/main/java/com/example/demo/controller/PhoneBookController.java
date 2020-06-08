@@ -10,7 +10,7 @@ import com.example.demo.form.SearchForm;
 import com.example.demo.service.SearchLogic;
 
 @Controller
-public class SearchController {
+public class PhoneBookController {
 	@Autowired
 	private SearchLogic search;
 
@@ -24,6 +24,20 @@ public class SearchController {
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ModelAndView search(SearchForm input, ModelAndView mav) {
 		search.execute(input, mav);
+		return mav;
+	}
+
+	/**登録画面へ遷移*/
+	@RequestMapping(value = "/regist", method = RequestMethod.POST)
+	public ModelAndView registInit(ModelAndView mav) {
+		mav.setViewName("regist");
+		return mav;
+	}
+
+	/**更新画面へ遷移*/
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ModelAndView updateInit(ModelAndView mav) {
+		mav.setViewName("update");
 		return mav;
 	}
 }

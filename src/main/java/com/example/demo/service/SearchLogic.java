@@ -45,6 +45,8 @@ public class SearchLogic {
 		mav.addObject("searchList", searchList);
 		mav.setViewName("search");
 		SearchLogic.searchMsg(searchList, keyword, mav);
+		//debag
+		//System.out.println("nullです");
 	}
 
 	private static void searchMsg(List<SearchResultForm> searchList, String inputName, ModelAndView mav) {
