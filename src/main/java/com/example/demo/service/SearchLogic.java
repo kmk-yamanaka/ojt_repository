@@ -26,10 +26,10 @@ public class SearchLogic {
 
 	/**入力された名前と電話帳リストにある名前を比較して合致するものをListに格納するメソッド*/
 	public void execute(SearchForm input, ModelAndView mav) {
-		List<PhoneBookEntity> phoneBookList = null;
-		String keyword = input.getKeyword();	//入力された名前を取得
+		List<PhoneBookEntity> phoneBookList = new ArrayList<>();
+		String keyword = input.getKeyword(); //入力された名前を取得
 		List<SearchResultForm> searchList = new ArrayList<>();
-		if (keyword == null) {
+		if (keyword == null || keyword.equals("")) {
 			phoneBookList = phoneBookRepository.findAll();
 		} else if (!keyword.equals("")) {
 			phoneBookList = phoneBookRepository.findResult(keyword);
@@ -45,15 +45,16 @@ public class SearchLogic {
 		mav.addObject("searchList", searchList);
 		mav.setViewName("search");
 		SearchLogic.searchMsg(searchList, keyword, mav);
-		//debag
-		//System.out.println("nullです");
 	}
 
 	private static void searchMsg(List<SearchResultForm> searchList, String inputName, ModelAndView mav) {
-		if (inputName == null) {return;}
-		if (inputName.equals("")) {
-			mav.addObject("msg", Message.SEARCH_EMPTY);
-		} else if (searchList.size() == 0) {
+		if (inputName == null || inputName.equals("")) {
+			return;
+		}
+//		if (inputName.equals("")) {
+//			mav.addObject("msg", Message.SEARCH_EMPTY);
+//		} else
+		if (searchList.size() == 0) {
 			mav.addObject("msg", Message.SEARCH_NOT_HIT);
 		} else {
 			mav.addObject("msg", searchList.size() + Message.SEARCH_HIT_COUNT);
