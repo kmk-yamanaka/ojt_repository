@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.PhoneBookRepository;
@@ -18,7 +19,7 @@ import com.example.demo.form.SearchResultForm;
  * 検索クラス
  */
 @Service
-public class SearchLogic {
+public class SearchService {
 	@Autowired
 	private HttpSession session;
 	@Autowired
@@ -29,9 +30,9 @@ public class SearchLogic {
 		List<PhoneBookEntity> phoneBookList = new ArrayList<>();
 		String keyword = input.getKeyword(); //入力された名前を取得
 		List<SearchResultForm> searchList = new ArrayList<>();
-		if (keyword == null || keyword.equals("")) {
+		if (StringUtils.isEmpty(keyword)) {
 			phoneBookList = phoneBookRepository.findAll();
-		} else if (!keyword.equals("")) {
+		} else if (!"".equals(keyword)) {
 			phoneBookList = phoneBookRepository.findResult(keyword);
 		}
 		session.setAttribute("phoneBookList", phoneBookList);
@@ -44,11 +45,11 @@ public class SearchLogic {
 		}
 		mav.addObject("searchList", searchList);
 		mav.setViewName("search");
-		SearchLogic.searchMsg(searchList, keyword, mav);
+		SearchService.searchMsg(searchList, keyword, mav);
 	}
 
 	private static void searchMsg(List<SearchResultForm> searchList, String inputName, ModelAndView mav) {
-		if (inputName == null || inputName.equals("")) {
+		if (StringUtils.isEmpty(inputName)) {
 			return;
 		}
 //		if (inputName.equals("")) {
