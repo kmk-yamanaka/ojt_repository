@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.form.RegistForm;
@@ -31,6 +32,13 @@ public class PhoneBookController {
 		return mav;
 	}
 
+	/**削除処理*/
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public ModelAndView delete(ModelAndView mav) {
+		search.delete(mav);
+		return index(mav);
+	}
+
 	/**登録画面へ遷移*/
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView registInit(ModelAndView mav) {
@@ -42,13 +50,17 @@ public class PhoneBookController {
 	@RequestMapping(value = "/regist/new", method = RequestMethod.POST)
 	public ModelAndView regist(RegistForm input, ModelAndView mav) {
 		regist.regist(input, mav);
-		mav.setViewName("regist");
-		return mav;
+		//mav.setViewName("regist");
+		return registInit(mav);
 	}
 
 	/**更新画面へ遷移*/
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ModelAndView updateInit(ModelAndView mav) {
+	public ModelAndView updateInit(@RequestParam(value="name", required = true) String name,
+			@RequestParam(value="phoneNumber", required = true) String phoneNumber) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("name", name);
+		mav.addObject("phoneNumber", phoneNumber);
 		mav.setViewName("update");
 		return mav;
 	}

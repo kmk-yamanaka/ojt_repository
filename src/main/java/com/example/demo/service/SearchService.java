@@ -61,4 +61,9 @@ public class SearchService {
 			mav.addObject("msg", searchList.size() + Message.SEARCH_HIT_COUNT);
 		}
 	}
+
+	public void delete(ModelAndView mav) {
+
+	}
+
 }

@@ -9,17 +9,25 @@
 	<h1>登録画面</h1>
 	<span class="msg" th:text="${msg}"></span>
 	<form method="post" action="/regist/new">
-		<span>名前　　　</span>
+		<span>名前　　　 </span>
 		<input type="text" name="name" th:value="${name}" />
-    	<br>
-		<span>電話番号　</span>
-		<input type="text" name="areaCode" style="width:38px" th:value="${areaCode}" />
-		<span>-</span>
-		<input type="text" name="cityCode" style="width:38px" th:value="${cityCode}" />
-		<span>-</span>
-		<input type="text" name="subscriberNumber" style="width:38px" th:value="${subscriberNumber}" />
 		<br>
-    	<input type="submit" value="登録" style="position: relative; top: 20px"/>
+		<span>電話番号　 </span>
+		<input type="text" name="areaCode" style="width: 38px" th:value="${areaCode}" />
+		<span>-</span>
+		<input type="text" name="cityCode" style="width: 38px" th:value="${cityCode}" />
+		<span>-</span>
+		<input type="text" name="subscriberNumber" style="width: 38px" th:value="${subscriberNumber}" />
+		<br>
+		<input type="submit" name="regist" value="登録" style="position: relative; top: 20px" />
 	</form>
+
+	<script>
+		var regist = document.getElementById('regist');
+		regist.addEventListener('click', function() {
+			window.confirm('クリックされました！');
+		})
+	</script>
+
 </body>
 </html>

@@ -42,7 +42,7 @@
  		</td>
 		<td>
 			<form method="post" action="/delete"
-				th:object="${inputForm}" onsubmit="return submitChk()">
+				th:object="${inputForm}" onsubmit="return submitChehk()">
 				 <input type="hidden" name="name" th:value="${phoneBook.name}">
 				 <input type="hidden" name="phoneNumber"
 					th:value="${phoneBook.phoneNumber}">
@@ -51,5 +51,16 @@
 		</td>
 	</tr>
 </table>
+
+<script>
+function submitCheck(){
+    if(window.confirm('送信しますか?')){
+        return true; //「はい」を押すと送信
+    } else {
+        return false; //「キャンセル」を押すと送信キャンセル
+    }
+}
+</script>
+
 </body>
 </html>
