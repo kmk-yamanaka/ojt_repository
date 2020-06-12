@@ -9,8 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.form.RegistForm;
 import com.example.demo.form.SearchForm;
+import com.example.demo.form.UpdateForm;
 import com.example.demo.service.RegistService;
 import com.example.demo.service.SearchService;
+import com.example.demo.service.UpdateService;
 
 @Controller
 public class PhoneBookController {
@@ -18,10 +20,12 @@ public class PhoneBookController {
 	private SearchService search;
 	@Autowired
 	private RegistService regist;
+	@Autowired
+	private UpdateService update;
 
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView index(ModelAndView mav) {
+	public ModelAndView searchInit(ModelAndView mav) {
 		return search(new SearchForm(), mav);
 	}
 
@@ -34,9 +38,10 @@ public class PhoneBookController {
 
 	/**削除処理*/
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public ModelAndView delete(ModelAndView mav) {
-		search.delete(mav);
-		return index(mav);
+	public ModelAndView delete(ModelAndView mav, @RequestParam(value="id", required = true) int id) {
+		//phoneBookRepository.delete(id);
+		search.delete(id);
+		return searchInit(mav);
 	}
 
 	/**登録画面へ遷移*/
@@ -51,17 +56,23 @@ public class PhoneBookController {
 	public ModelAndView regist(RegistForm input, ModelAndView mav) {
 		regist.regist(input, mav);
 		//mav.setViewName("regist");
-		return registInit(mav);
+		return searchInit(mav);
 	}
 
 	/**更新画面へ遷移*/
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ModelAndView updateInit(@RequestParam(value="name", required = true) String name,
+	public ModelAndView updateInit(ModelAndView mav, @RequestParam(value="id", required = true) int id,
+			@RequestParam(value="name", required = true) String name,
 			@RequestParam(value="phoneNumber", required = true) String phoneNumber) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("name", name);
-		mav.addObject("phoneNumber", phoneNumber);
-		mav.setViewName("update");
+		update.updateInit(mav, id, name, phoneNumber);
 		return mav;
+	}
+
+	/**更新処理*/
+	@RequestMapping(value = "/update/new", method = RequestMethod.POST)
+	public ModelAndView update(UpdateForm input, ModelAndView mav,
+			@RequestParam(value="id", required = true) int id) {
+		update.update(input, mav, id);
+		return searchInit(mav);
 	}
 }

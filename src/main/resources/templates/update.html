@@ -13,13 +13,14 @@
 		<input type="text" name="name" th:value="${name}" />
     	<br>
 		<span>電話番号　</span>
-		<input type="text" name="phoneNumber" style="width:38px" th:value="${phoneNumber}" />
+		<input type="text" name="areaCode" style="width:38px" th:value="${areaCode}" />
 		<span>-</span>
-		<input type="text" name="phoneNumber" style="width:38px" th:value="${phoneNumber}" />
+		<input type="text" name="cityCode" style="width:38px" th:value="${cityCode}" />
 		<span>-</span>
-		<input type="text" name="phoneNumber" style="width:38px" th:value="${phoneNumber}" />
+		<input type="text" name="subscriberNumber" style="width:38px" th:value="${subscriberNumber}" />
 		<br>
     	<input type="submit" value="更新" style="position: relative; top: 20px"/>
+		<input type="hidden" name="id" th:value="${id}">
 	</form>
 </body>
 </html>

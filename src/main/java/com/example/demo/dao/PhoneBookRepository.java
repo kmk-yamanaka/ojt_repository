@@ -15,18 +15,18 @@ import com.example.demo.entity.PhoneBookEntity;
 public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long> {
 
 	/**検索SQL*/
-	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_delete FROM phone_book p", nativeQuery = true)
+	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_delete FROM phone_book p WHERE is_delete = false", nativeQuery = true)
 	public List<PhoneBookEntity> findAll();
 
 	/**検索SQL*/
-	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_delete FROM phone_book p WHERE p.name LIKE %:keyword%", nativeQuery = true)
+	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_delete FROM phone_book p WHERE p.name LIKE %:keyword% AND is_delete = false", nativeQuery = true)
 	public List<PhoneBookEntity> findResult(@Param("keyword") String keyword);
 
 	/**削除SQL*/
 	@Modifying
 	@Transactional
-	@Query(value = "DELETE from phone_book WHERE id = :id", nativeQuery = true)
-	public void delete(int id);
+	@Query(value = "UPDATE phone_book SET is_delete = true WHERE phone_book_id = :id", nativeQuery = true)
+	public void delete(@Param("id") int id);
 
 	/**登録SQL*/
 	@Modifying
@@ -37,6 +37,6 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long
 	/**更新SQL*/
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE phone_book SET name = :name, phone_number = :phoneNumber ,account_id = :accountId WHERE id = :id", nativeQuery = true)
-	public void update(String name, String phoneNumber, int id, String accountId);
+	@Query(value = "UPDATE phone_book SET name = :name, phone_number = :phoneNumber WHERE phone_book_id = :id", nativeQuery = true)
+	public void update(@Param("name") String name, @Param("phoneNumber") String phoneNumber, @Param("id") int id);
 }

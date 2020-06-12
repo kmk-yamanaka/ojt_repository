@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.PhoneBookRepository;
@@ -39,6 +40,7 @@ public class SearchService {
 		for (int i = 0; i < phoneBookList.size(); i++) {
 			PhoneBookEntity entity = phoneBookList.get(i);
 			SearchResultForm sf = new SearchResultForm();
+			sf.setId(entity.getId());
 			sf.setName(entity.getName());
 			sf.setPhoneNumber(entity.getPhoneNumber());
 			searchList.add(sf);
@@ -62,8 +64,8 @@ public class SearchService {
 		}
 	}
 
-	public void delete(ModelAndView mav) {
-
+	public void delete(@RequestParam(value="id", required = true) int id) {
+		phoneBookRepository.delete(id);
 	}
 
 }
