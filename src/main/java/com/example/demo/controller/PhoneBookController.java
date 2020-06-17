@@ -52,10 +52,10 @@ public class PhoneBookController {
 	}
 
 	/**登録処理*/
-	@RequestMapping(value = "/regist/new", method = RequestMethod.POST)
+	@RequestMapping(value = "/registnew", method = RequestMethod.POST)
 	public ModelAndView regist(RegistForm input, ModelAndView mav) {
 		regist.regist(input, mav);
-		//mav.setViewName("regist");
+		//mav.setViewName("search");
 		return searchInit(mav);
 	}
 
@@ -69,7 +69,7 @@ public class PhoneBookController {
 	}
 
 	/**更新処理*/
-	@RequestMapping(value = "/update/new", method = RequestMethod.POST)
+	@RequestMapping(value = "/updatenew", method = RequestMethod.POST)
 	public ModelAndView update(UpdateForm input, ModelAndView mav,
 			@RequestParam(value="id", required = true) int id) {
 		update.update(input, mav, id);

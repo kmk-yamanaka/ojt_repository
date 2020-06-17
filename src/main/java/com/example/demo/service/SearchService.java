@@ -31,9 +31,9 @@ public class SearchService {
 		List<PhoneBookEntity> phoneBookList = new ArrayList<>();
 		String keyword = input.getKeyword(); //入力された名前を取得
 		List<SearchResultForm> searchList = new ArrayList<>();
-		if (StringUtils.isEmpty(keyword)) {
+		if (StringUtils.isEmpty(keyword) || isValid(keyword, mav)) {
 			phoneBookList = phoneBookRepository.findAll();
-		} else if (!"".equals(keyword)) {
+		} else {
 			phoneBookList = phoneBookRepository.findResult(keyword);
 		}
 		session.setAttribute("phoneBookList", phoneBookList);
@@ -50,13 +50,34 @@ public class SearchService {
 		SearchService.searchMsg(searchList, keyword, mav);
 	}
 
+	/**
+	 * 入力桁数チェックメソッド
+	 * @param inputName
+	 * @param mav
+	 * @return エラーありならtrue、なしならfalse
+	 */
+	private static boolean isValid(String inputName, ModelAndView mav) {
+		boolean isValid = false;
+		if (inputName.length() > 20) {
+			isValid = true;
+		}
+		return isValid;
+	}
+
+	/**
+	 * メッセージを画面に埋め込むメソッド
+	 * @param searchList
+	 * @param inputName
+	 * @param mav
+	 */
 	private static void searchMsg(List<SearchResultForm> searchList, String inputName, ModelAndView mav) {
 		if (StringUtils.isEmpty(inputName)) {
 			return;
 		}
-//		if (inputName.equals("")) {
-//			mav.addObject("msg", Message.SEARCH_EMPTY);
-//		} else
+		if (isValid(inputName, mav)) {
+			mav.addObject("msg", Message.NAME_LIMIT);
+			return;
+		}
 		if (searchList.size() == 0) {
 			mav.addObject("msg", Message.SEARCH_NOT_HIT);
 		} else {
@@ -64,7 +85,11 @@ public class SearchService {
 		}
 	}
 
-	public void delete(@RequestParam(value="id", required = true) int id) {
+	/**
+	 * 削除メソッド
+	 * @param id
+	 */
+	public void delete(@RequestParam(value = "id", required = true) int id) {
 		phoneBookRepository.delete(id);
 	}
 
