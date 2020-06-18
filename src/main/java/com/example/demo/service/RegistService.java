@@ -8,6 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.PhoneBookRepository;
 import com.example.demo.form.RegistForm;
+import com.example.demo.utility.HandleSpace;
+import com.example.demo.utility.ValidationUtil;
 
 /**
  * 登録クラス
@@ -26,9 +28,17 @@ public class RegistService {
 		String areaCode = input.getAreaCode();
 		String cityCode = input.getCityCode();
 		String subscriberNumber = input.getSubscriberNumber();
-		String phoneNumber = areaCode + "-" + cityCode + "-" + subscriberNumber;
 
-		phoneBookRepository.regist(name, phoneNumber);
+		name = HandleSpace.handleSpaceName(name); // 空白処理メソッドの呼び出し
+		areaCode = HandleSpace.deleteSpacePhoneNumber(areaCode);
+		cityCode = HandleSpace.deleteSpacePhoneNumber(cityCode);
+		subscriberNumber = HandleSpace.deleteSpacePhoneNumber(subscriberNumber);
+
+		if(ValidationUtil.isValidAtRegistOrUpdate(name, areaCode, cityCode, subscriberNumber, mav)) {
+			String phoneNumber = areaCode + "-" + cityCode + "-" + subscriberNumber;
+			phoneBookRepository.regist(name, phoneNumber);
+			mav.addObject("msg", Message.REGIST);
+		}
 	}
 
 }

@@ -7,6 +7,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.PhoneBookRepository;
 import com.example.demo.form.UpdateForm;
+import com.example.demo.utility.HandleSpace;
+import com.example.demo.utility.ValidationUtil;
 
 /**
  * 更新クラス
@@ -18,7 +20,7 @@ public class UpdateService {
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
 
-	public void updateInit(ModelAndView mav, @RequestParam(value="id", required = true) int id,
+	public void updateInit(ModelAndView mav, @RequestParam(value = "id", required = true) int id,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber) {
 
@@ -36,15 +38,22 @@ public class UpdateService {
 	}
 
 	public void update(UpdateForm input, ModelAndView mav,
-			@RequestParam(value="id", required = true) int id) {
+			@RequestParam(value = "id", required = true) int id) {
 		String name = input.getName();
 		String areaCode = input.getAreaCode();
 		String cityCode = input.getCityCode();
 		String subscriberNumber = input.getSubscriberNumber();
-		String phoneNumber = areaCode + "-" + cityCode + "-" + subscriberNumber;
 
-		phoneBookRepository.update(name, phoneNumber, id);
+		name = HandleSpace.handleSpaceName(name); // 空白処理メソッドの呼び出し
+		areaCode = HandleSpace.deleteSpacePhoneNumber(areaCode);
+		cityCode = HandleSpace.deleteSpacePhoneNumber(cityCode);
+		subscriberNumber = HandleSpace.deleteSpacePhoneNumber(subscriberNumber);
 
+		if (ValidationUtil.isValidAtRegistOrUpdate(name, areaCode, cityCode, subscriberNumber, mav)) {
+			String phoneNumber = areaCode + "-" + cityCode + "-" + subscriberNumber;
+			phoneBookRepository.update(name, phoneNumber, id);
+			mav.addObject("msg", Message.UPDATE);
+		}
 	}
 
 }

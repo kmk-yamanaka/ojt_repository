@@ -15,11 +15,11 @@ import com.example.demo.entity.PhoneBookEntity;
 public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long> {
 
 	/**検索SQL*/
-	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_delete FROM phone_book p WHERE is_delete = false", nativeQuery = true)
+	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_delete FROM phone_book p WHERE is_delete = false ORDER BY phone_book_id", nativeQuery = true)
 	public List<PhoneBookEntity> findAll();
 
 	/**検索SQL*/
-	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_delete FROM phone_book p WHERE p.name LIKE %:keyword% AND is_delete = false", nativeQuery = true)
+	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_delete FROM phone_book p WHERE p.name LIKE %:keyword% AND is_delete = false ORDER BY phone_book_id", nativeQuery = true)
 	public List<PhoneBookEntity> findResult(@Param("keyword") String keyword);
 
 	/**削除SQL*/

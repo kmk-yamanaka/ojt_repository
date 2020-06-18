@@ -8,6 +8,8 @@
 <body>
 	<h1>更新画面</h1>
 	<span class="msg" th:text="${msg}"></span>
+	<br>
+	<span class="msg2" th:text="${msg2}"></span>
 	<form method="post" action="/updatenew">
 		<span>名前　　　</span>
 		<input type="text" name="name" th:value="${name}" />

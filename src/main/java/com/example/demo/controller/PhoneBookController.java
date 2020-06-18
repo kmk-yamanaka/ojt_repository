@@ -40,7 +40,7 @@ public class PhoneBookController {
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ModelAndView delete(ModelAndView mav, @RequestParam(value="id", required = true) int id) {
 		//phoneBookRepository.delete(id);
-		search.delete(id);
+		search.delete(mav, id);
 		return searchInit(mav);
 	}
 
@@ -55,8 +55,8 @@ public class PhoneBookController {
 	@RequestMapping(value = "/registnew", method = RequestMethod.POST)
 	public ModelAndView regist(RegistForm input, ModelAndView mav) {
 		regist.regist(input, mav);
-		//mav.setViewName("search");
-		return searchInit(mav);
+		//mav.setViewName("regist");
+		return registInit(mav);
 	}
 
 	/**更新画面へ遷移*/
@@ -73,6 +73,7 @@ public class PhoneBookController {
 	public ModelAndView update(UpdateForm input, ModelAndView mav,
 			@RequestParam(value="id", required = true) int id) {
 		update.update(input, mav, id);
-		return searchInit(mav);
+		mav.setViewName("update");
+		return mav;
 	}
 }

@@ -15,6 +15,8 @@ import com.example.demo.dao.PhoneBookRepository;
 import com.example.demo.entity.PhoneBookEntity;
 import com.example.demo.form.SearchForm;
 import com.example.demo.form.SearchResultForm;
+import com.example.demo.utility.Constants;
+import com.example.demo.utility.HandleSpace;
 
 /**
  * 検索クラス
@@ -30,9 +32,10 @@ public class SearchService {
 	public void execute(SearchForm input, ModelAndView mav) {
 		List<PhoneBookEntity> phoneBookList = new ArrayList<>();
 		String keyword = input.getKeyword(); //入力された名前を取得
+		keyword = HandleSpace.handleSpaceName(keyword); // 空白処理メソッドの呼び出し
 		List<SearchResultForm> searchList = new ArrayList<>();
-		if (StringUtils.isEmpty(keyword) || isValid(keyword, mav)) {
-			phoneBookList = phoneBookRepository.findAll();
+		if (StringUtils.isEmpty(keyword) || !isValid(keyword, mav)) { // キーワードが空白(null)or入力チェック
+			phoneBookList = phoneBookRepository.findAll();     // に引っかかる場合は初期表示と同じ処理をする
 		} else {
 			phoneBookList = phoneBookRepository.findResult(keyword);
 		}
@@ -57,11 +60,11 @@ public class SearchService {
 	 * @return エラーありならtrue、なしならfalse
 	 */
 	private static boolean isValid(String inputName, ModelAndView mav) {
-		boolean isValid = false;
-		if (inputName.length() > 20) {
-			isValid = true;
-		}
-		return isValid;
+//		boolean isValid = true;
+//		if (inputName.length() > Constants.NAME_MAX) {
+//			isValid = false;
+//		}
+		return inputName.length() <= Constants.NAME_MAX;
 	}
 
 	/**
@@ -74,11 +77,11 @@ public class SearchService {
 		if (StringUtils.isEmpty(inputName)) {
 			return;
 		}
-		if (isValid(inputName, mav)) {
+		if (!isValid(inputName, mav)) {
 			mav.addObject("msg", Message.NAME_LIMIT);
 			return;
 		}
-		if (searchList.size() == 0) {
+		if (searchList.isEmpty()) {
 			mav.addObject("msg", Message.SEARCH_NOT_HIT);
 		} else {
 			mav.addObject("msg", searchList.size() + Message.SEARCH_HIT_COUNT);
@@ -89,8 +92,9 @@ public class SearchService {
 	 * 削除メソッド
 	 * @param id
 	 */
-	public void delete(@RequestParam(value = "id", required = true) int id) {
+	public void delete(ModelAndView mav, @RequestParam(value = "id", required = true) int id) {
 		phoneBookRepository.delete(id);
+		mav.addObject("msg", Message.DELETE);
 	}
 
 }
