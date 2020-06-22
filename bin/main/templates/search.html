@@ -14,7 +14,7 @@
 
 <form method="post" action="/search">
 <span>名前：</span>
-	<input type="text" name="keyword" th:value="${keyword}" />
+	<input type="text" name="keyword" th:value="${keyword}" maxlength="20" />
 	<input type="submit" value="検索" />
 </form>
 

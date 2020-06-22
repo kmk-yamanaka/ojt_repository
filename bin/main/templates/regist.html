@@ -12,24 +12,19 @@
 	<span class="msg2" th:text="${msg2}"></span>
 	<form method="post" action="/registnew">
 		<span>名前　　　 </span>
-		<input type="text" name="name" th:value="${name}" />
+		<input type="text" name="name" th:value="${name}" maxlength="20"/>
 		<br>
 		<span>電話番号　 </span>
-		<input type="text" name="areaCode" style="width: 38px" th:value="${areaCode}" />
+		<input type="text" name="areaCode" style="width: 38px" th:value="${areaCode}" maxlength="4" />
 		<span>-</span>
-		<input type="text" name="cityCode" style="width: 38px" th:value="${cityCode}" />
+		<input type="text" name="cityCode" style="width: 38px" th:value="${cityCode}" maxlength="4" />
 		<span>-</span>
-		<input type="text" name="subscriberNumber" style="width: 38px" th:value="${subscriberNumber}" />
+		<input type="text" name="subscriberNumber" style="width: 38px" th:value="${subscriberNumber}" maxlength="4" />
 		<br>
-		<input type="submit" name="regist" value="登録" style="position: relative; top: 20px" />
+		<input type="submit" name="regist" value="登録" style="position: absolute; top: 200px" />
 	</form>
-
-	<script>
-		var regist = document.getElementById('regist');
-		regist.addEventListener('click', function() {
-			window.confirm('クリックされました！');
-		})
-	</script>
-
+	<form method="post" action="/search">
+		<input type="submit" value="◀戻る" style="position: absolute; left: 850px; top: 200px" />
+	</form>
 </body>
 </html>

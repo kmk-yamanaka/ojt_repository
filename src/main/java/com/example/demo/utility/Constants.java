@@ -9,4 +9,9 @@ public class Constants {
 	/**電話番号の最大桁数*/
 	public static final int PHONENUMBER_MAX = 4;
 
+	/**全角スペース*/
+	public static final String FULL_SPACE = "　";
+
+	/**半角スペース*/
+	public static final String HALF_SPACE = " ";
 }

@@ -10,7 +10,7 @@ public class HandleSpace {
 	 */
 	public static String handleSpaceName(String name) {
 		if (name != null) {
-			name = name.replace("　", " ").trim();
+			name = name.replace(Constants.FULL_SPACE, Constants.HALF_SPACE).trim();
 		}
 		return name;
 	}
@@ -23,7 +23,8 @@ public class HandleSpace {
 	 */
 	public static String deleteSpacePhoneNumber(String phoneNumber) {
 		if (phoneNumber != null) {
-			phoneNumber = phoneNumber.replace("　", " ").replace(" ", "");
+			phoneNumber = phoneNumber.replace(Constants.FULL_SPACE, Constants.HALF_SPACE)
+					.replace(Constants.HALF_SPACE, "");
 		}
 		return phoneNumber;
 	}

@@ -54,6 +54,12 @@ public class UpdateService {
 			phoneBookRepository.update(name, phoneNumber, id);
 			mav.addObject("msg", Message.UPDATE);
 		}
+
+		mav.addObject("id", id);
+		mav.addObject("name", name);
+		mav.addObject("areaCode", areaCode);
+		mav.addObject("cityCode", cityCode);
+		mav.addObject("subscriberNumber", subscriberNumber);
 	}
 
 }

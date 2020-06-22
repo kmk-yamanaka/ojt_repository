@@ -39,6 +39,11 @@ public class RegistService {
 			phoneBookRepository.regist(name, phoneNumber);
 			mav.addObject("msg", Message.REGIST);
 		}
+
+		mav.addObject("name", name);
+		mav.addObject("areaCode", areaCode);
+		mav.addObject("cityCode", cityCode);
+		mav.addObject("subscriberNumber", subscriberNumber);
 	}
 
 }
