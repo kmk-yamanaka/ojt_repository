@@ -7,6 +7,7 @@
 </head>
 <body>
 	<h1>登録画面</h1>
+	<p>名前と電話番号を入力してください</p>
 	<span class="msg" th:text="${msg}"></span>
 	<br>
 	<span class="msg2" th:text="${msg2}"></span>
@@ -15,16 +16,23 @@
 		<input type="text" name="name" th:value="${name}" maxlength="20"/>
 		<br>
 		<span>電話番号　 </span>
-		<input type="text" name="areaCode" style="width: 38px" th:value="${areaCode}" maxlength="4" />
+		<input class="inputedPhoneNumber" type="text" name="areaCode" th:value="${areaCode}" maxlength="4" />
 		<span>-</span>
-		<input type="text" name="cityCode" style="width: 38px" th:value="${cityCode}" maxlength="4" />
+		<input class="inputedPhoneNumber" type="text" name="cityCode" th:value="${cityCode}" maxlength="4" />
 		<span>-</span>
-		<input type="text" name="subscriberNumber" style="width: 38px" th:value="${subscriberNumber}" maxlength="4" />
+		<input class="inputedPhoneNumber" type="text" name="subscriberNumber" th:value="${subscriberNumber}" maxlength="4" />
 		<br>
-		<input type="submit" name="regist" value="登録" style="position: absolute; top: 200px" />
+		<script>
+			function js_alert(){
+				<!--var message = th:text="${msg}"-->
+				window.alert("登録が完了しました");
+				<!--window.alert("登録が完了しました");-->
+			}
+		</script>
+		<input class="regist" type="submit" name="regist" value="登録" onclick="js_alert()" />
 	</form>
 	<form method="post" action="/search">
-		<input type="submit" value="◀戻る" style="position: absolute; left: 850px; top: 200px" />
+		<input class="regist" type="submit" value="◀戻る" />
 	</form>
 </body>
 </html>

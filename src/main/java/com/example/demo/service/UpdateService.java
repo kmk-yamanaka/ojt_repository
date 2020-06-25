@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.PhoneBookRepository;
 import com.example.demo.form.UpdateForm;
+import com.example.demo.utility.Constants;
 import com.example.demo.utility.HandleSpace;
 import com.example.demo.utility.ValidationUtil;
 
@@ -24,7 +25,7 @@ public class UpdateService {
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber) {
 
-		String[] phoneNumbers = phoneNumber.split("-", 0);
+		String[] phoneNumbers = phoneNumber.split(Constants.HYPHEN, 0);
 		String areaCode = phoneNumbers[0];
 		String cityCode = phoneNumbers[1];
 		String subscriberNumber = phoneNumbers[2];
@@ -50,7 +51,7 @@ public class UpdateService {
 		subscriberNumber = HandleSpace.deleteSpacePhoneNumber(subscriberNumber);
 
 		if (ValidationUtil.isValidAtRegistOrUpdate(name, areaCode, cityCode, subscriberNumber, mav)) {
-			String phoneNumber = areaCode + "-" + cityCode + "-" + subscriberNumber;
+			String phoneNumber = areaCode + Constants.HYPHEN + cityCode + Constants.HYPHEN + subscriberNumber;
 			phoneBookRepository.update(name, phoneNumber, id);
 			mav.addObject("msg", Message.UPDATE);
 		}

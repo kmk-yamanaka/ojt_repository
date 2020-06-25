@@ -7,7 +7,6 @@
 </head>
 <body>
 <h1>一覧画面</h1>
-<span class="msg" th:text="${msg}"></span>
 <form method="post" action="/regist">
 	<input type="submit" value="新規登録" style="position: relative; left: 200px; top: 10px"/>
 </form>
@@ -18,13 +17,15 @@
 	<input type="submit" value="検索" />
 </form>
 
+<span class="msg" th:text="${msg}"></span>
+
 <table id="table" border="1" style="border-collapse: collapse">
 	<tr>
 		<th class="No">No</th>
 		<th class="name">名前</th>
 		<th class="phoneNumber">電話番号</th>
-		<th class="upBtn">更新</th>
-		<th class="delBtn">削除</th>
+		<th class="upBtn"></th>
+		<th class="delBtn"></th>
 	</tr>
 
 	<tr th:each="phoneBook, stat :${searchList}">
@@ -37,7 +38,7 @@
 				<input type="hidden" name="id" th:value="${phoneBook.id}">
 				<input type="hidden" name="name" th:value="${phoneBook.name}">
 				<input type="hidden" name="phoneNumber" th:value="${phoneBook.phoneNumber}">
-				<input type="submit" value="🔃" />
+				<input type="submit" value="更新" />
  			</form>
  		</td>
 		<td>
@@ -46,21 +47,30 @@
 				<input type="hidden" name="id" th:value="${phoneBook.id}">
 				<input type="hidden" name="name" th:value="${phoneBook.name}">
 				<input type="hidden" name="phoneNumber" th:value="${phoneBook.phoneNumber}">
-     			<input type="submit" onclick="return confirm('削除してもよろしいですか？')" value="🚮" />
+     			<input type="submit" onclick="return confirm('削除してもよろしいですか？')" value="削除" />
  			</form>
 		</td>
 	</tr>
 </table>
-
-<script>
-function submitCheck(){
-    if(window.confirm('送信しますか?')){
-        return true; //「はい」を押すと送信
-    } else {
-        return false; //「キャンセル」を押すと送信キャンセル
-    }
-}
-</script>
-
+<form method="post" action="/back">
+	<input type="hidden" name="pageNumber" th:value="${pageNumber}">
+	<input type="hidden" name="lastPageNumber" th:value="${lastPageNumber}">
+	<div th:if="${pageNumber} != 1">
+    	<input type="submit" value="◀前ページ" />
+	</div>
+	<div th:if="${pageNumber} == 1">
+    	<input type="submit" value="◀前ページ" disabled="disabled"/>
+	</div>
+</form>
+<form method="post" action="/next">
+	<input type="hidden" name="pageNumber" th:value="${pageNumber}">
+	<input type="hidden" name="lastPageNumber" th:value="${lastPageNumber}">
+	<div th:if="${pageNumber} != ${lastPageNumber}">
+		<input type="submit" value="次ページ▶" />
+	</div>
+	<div th:if="${pageNumber} == ${lastPageNumber}">
+		<input type="submit" value="次ページ▶" disabled="disabled"/>
+	</div>
+</form>
 </body>
 </html>

@@ -28,19 +28,44 @@ public class SearchService {
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
 
-	/**入力された名前と電話帳リストにある名前を比較して合致するものをListに格納するメソッド*/
+	/**入力された名前と電話帳リストにある名前を比較して合致するものをsessionに格納するメソッド*/
 	public void execute(SearchForm input, ModelAndView mav) {
 		List<PhoneBookEntity> phoneBookList = new ArrayList<>();
 		String keyword = input.getKeyword(); //入力された名前を取得
 		keyword = HandleSpace.handleSpaceName(keyword); // 空白処理メソッドの呼び出し
-		List<SearchResultForm> searchList = new ArrayList<>();
-		if (StringUtils.isEmpty(keyword) || !isValid(keyword, mav)) { // キーワードが空白(null)or入力チェック
-			phoneBookList = phoneBookRepository.findAll();     // に引っかかる場合は初期表示と同じ処理をする
+		if (StringUtils.isEmpty(keyword) || !isValid(keyword)) { // キーワードが空白(null)or入力チェック
+			phoneBookList = phoneBookRepository.findAll(); // に引っかかる場合は初期表示と同じ処理をする
 		} else {
 			phoneBookList = phoneBookRepository.findResult(keyword);
 		}
 		session.setAttribute("phoneBookList", phoneBookList);
-		for (int i = 0; i < phoneBookList.size(); i++) {
+
+		int pageNumber = 1;
+		double lastPageNum = Math.ceil((double) phoneBookList.size() / Constants.DATA_DISPLAYED_MAX);
+		int lastPageNumber = (int) lastPageNum;
+		if (lastPageNumber == 0) {
+			lastPageNumber++;
+		}
+		page(pageNumber, lastPageNumber, input, mav);
+	}
+
+	/**
+	 * ページング処理メソッド
+	 * @param pageNumber
+	 * @param lastPageNumber
+	 * @param input
+	 * @param mav
+	 */
+	private void page(int pageNumber, int lastPageNumber, SearchForm input, ModelAndView mav) {
+		List<PhoneBookEntity> phoneBookList = new ArrayList<>();
+		phoneBookList = (List<PhoneBookEntity>) session.getAttribute("phoneBookList");
+		List<SearchResultForm> searchList = new ArrayList<>();
+		int firstIndex = Constants.DATA_DISPLAYED_MAX * (pageNumber - 1);
+		int max = firstIndex + Constants.DATA_DISPLAYED_MAX;
+		for (int i = firstIndex; i < max; i++) {
+			if (i == phoneBookList.size()) {
+				break;
+			}
 			PhoneBookEntity entity = phoneBookList.get(i);
 			SearchResultForm sf = new SearchResultForm();
 			sf.setId(entity.getId());
@@ -49,21 +74,47 @@ public class SearchService {
 			searchList.add(sf);
 		}
 		mav.addObject("searchList", searchList);
+		mav.addObject("pageNumber", pageNumber);
+		mav.addObject("lastPageNumber", lastPageNumber);
 		mav.setViewName("search");
-		SearchService.searchMsg(searchList, keyword, mav);
+		SearchService.searchMsg(searchList, phoneBookList, input, mav);
+	}
+
+	/**
+	 * 次ページメソッド
+	 * @param pageNumber
+	 * @param lastPageNumber
+	 * @param input
+	 * @param mav
+	 */
+	public void next(int pageNumber, int lastPageNumber, SearchForm input, ModelAndView mav) {
+		if (pageNumber != lastPageNumber) {
+			pageNumber++;
+		}
+		page(pageNumber, lastPageNumber, input, mav);
+	}
+
+	/**
+	 * 前ページメソッド
+	 * @param pageNumber
+	 * @param lastPageNumber
+	 * @param input
+	 * @param mav
+	 */
+	public void back(int pageNumber, int lastPageNumber, SearchForm input, ModelAndView mav) {
+		if (pageNumber != 1) {
+			pageNumber--;
+		}
+		page(pageNumber, lastPageNumber, input, mav);
 	}
 
 	/**
 	 * 入力桁数チェックメソッド
 	 * @param inputName
 	 * @param mav
-	 * @return エラーありならtrue、なしならfalse
+	 * @return 正常ならtrue、異常ならfalse
 	 */
-	private static boolean isValid(String inputName, ModelAndView mav) {
-//		boolean isValid = true;
-//		if (inputName.length() > Constants.NAME_MAX) {
-//			isValid = false;
-//		}
+	public static boolean isValid(String inputName) {
 		return inputName.length() <= Constants.NAME_MAX;
 	}
 
@@ -73,18 +124,13 @@ public class SearchService {
 	 * @param inputName
 	 * @param mav
 	 */
-	private static void searchMsg(List<SearchResultForm> searchList, String inputName, ModelAndView mav) {
-		if (StringUtils.isEmpty(inputName)) {
-			return;
-		}
-		if (!isValid(inputName, mav)) {
+	private static void searchMsg(List<SearchResultForm> searchList, List<PhoneBookEntity> phoneBookList,
+			SearchForm input, ModelAndView mav) {
+		mav.addObject("msg", searchList.size() + Message.DISPLAYED_COUNT + phoneBookList.size()
+				+ Message.TOTAL_COUNT);
+		String inputName = input.getKeyword();
+		if (inputName != null && !isValid(inputName)) {
 			mav.addObject("msg", Message.NAME_LIMIT);
-			return;
-		}
-		if (searchList.isEmpty()) {
-			mav.addObject("msg", Message.SEARCH_NOT_HIT);
-		} else {
-			mav.addObject("msg", searchList.size() + Message.SEARCH_HIT_COUNT);
 		}
 	}
 

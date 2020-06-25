@@ -2,6 +2,13 @@ package com.example.demo.service;
 
 /**対応したメッセージを定義したクラス*/
 public class Message {
+
+	/**表示件数*/
+	public static final String DISPLAYED_COUNT = "件表示/";
+
+	/**合計取得件数*/
+	public static final String TOTAL_COUNT = "件中";
+
 	/**検索にヒットした際に出すメッセージ*/
 	public static final String SEARCH_HIT_COUNT = "件ヒットしました";
 

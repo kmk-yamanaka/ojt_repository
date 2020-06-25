@@ -24,7 +24,7 @@ public class HandleSpace {
 	public static String deleteSpacePhoneNumber(String phoneNumber) {
 		if (phoneNumber != null) {
 			phoneNumber = phoneNumber.replace(Constants.FULL_SPACE, Constants.HALF_SPACE)
-					.replace(Constants.HALF_SPACE, "");
+					.replace(Constants.HALF_SPACE, Constants.EMPTY);
 		}
 		return phoneNumber;
 	}

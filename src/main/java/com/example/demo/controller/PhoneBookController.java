@@ -36,6 +36,24 @@ public class PhoneBookController {
 		return mav;
 	}
 
+	/**次のページを表示*/
+	@RequestMapping(value = "/next", method = RequestMethod.POST)
+	public ModelAndView next(@RequestParam(value="pageNumber", required = true) int pageNumber,
+			@RequestParam(value="lastPageNumber", required = true) int lastPageNumber,
+			SearchForm input, ModelAndView mav) {
+		search.next(pageNumber, lastPageNumber, input, mav);
+		return mav;
+	}
+
+	/**前のページを表示*/
+	@RequestMapping(value = "/back", method = RequestMethod.POST)
+	public ModelAndView back(@RequestParam(value="pageNumber", required = true) int pageNumber,
+			@RequestParam(value="lastPageNumber", required = true) int lastPageNumber,
+			SearchForm input, ModelAndView mav) {
+		search.back(pageNumber, lastPageNumber, input, mav);
+		return mav;
+	}
+
 	/**削除処理*/
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ModelAndView delete(ModelAndView mav, @RequestParam(value="id", required = true) int id) {

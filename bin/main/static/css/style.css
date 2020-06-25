@@ -29,3 +29,14 @@ h1 {
 	display: inline-flex;
 	margin-bottom: 10px;
 }
+
+.regist{
+	margin-top:30px;
+	display: inline-block;
+	left: 0;
+}
+
+.inputedPhoneNumber{
+	width: 37px;
+  	margin-top: 20px;
+}
