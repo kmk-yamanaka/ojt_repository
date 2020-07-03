@@ -26,13 +26,17 @@ public class PhoneBookController {
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView searchInit(ModelAndView mav) {
+//		int pageNumber = 1;
 		return search(new SearchForm(), mav);
 	}
 
 	/**検索ロジックを呼び出して検索ページへ遷移*/
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public ModelAndView search(SearchForm input, ModelAndView mav) {
-		search.execute(input, mav);
+	public ModelAndView search(SearchForm input, ModelAndView mav
+//			,@RequestParam(value="pageNumber", required = true) int pageNumber
+			) {
+		int pageNumber = 1;
+		search.execute(input, mav, pageNumber);
 		return mav;
 	}
 
@@ -56,42 +60,65 @@ public class PhoneBookController {
 
 	/**削除処理*/
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public ModelAndView delete(ModelAndView mav, @RequestParam(value="id", required = true) int id) {
+	public ModelAndView delete(ModelAndView mav, SearchForm input,
+			@RequestParam(value="id", required = true) int id,
+//			@RequestParam(value="keyword", required = true) String keyword,
+			@RequestParam(value="pageNumber", required = true) int pageNumber) {
 		//phoneBookRepository.delete(id);
-		search.delete(mav, id);
-		return searchInit(mav);
+		search.delete(mav, id, input, pageNumber);
+		search.execute(input, mav, pageNumber);
+		return mav;
+//		return searchInit(mav);
 	}
 
 	/**登録画面へ遷移*/
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
-	public ModelAndView registInit(ModelAndView mav) {
-		mav.setViewName("regist");
+	public ModelAndView registInit(ModelAndView mav,
+			@RequestParam(value="keyword", required = true) String keyword,
+			@RequestParam(value="pageNumber", required = true) int pageNumber) {
+		regist.registInit(mav, keyword, pageNumber);
+		//mav.setViewName("regist");
 		return mav;
 	}
 
 	/**登録処理*/
 	@RequestMapping(value = "/registnew", method = RequestMethod.POST)
-	public ModelAndView regist(RegistForm input, ModelAndView mav) {
-		regist.regist(input, mav);
-		//mav.setViewName("regist");
-		return registInit(mav);
+	public ModelAndView regist(RegistForm input, ModelAndView mav,
+			@RequestParam(value="keyword", required = true) String keyword,
+			@RequestParam(value="pageNumber", required = true) int pageNumber) {
+		regist.regist(input, mav, keyword, pageNumber);
+		mav.setViewName("regist");
+		return mav;
+		//return registInit(mav);
 	}
 
 	/**更新画面へ遷移*/
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public ModelAndView updateInit(ModelAndView mav, @RequestParam(value="id", required = true) int id,
 			@RequestParam(value="name", required = true) String name,
-			@RequestParam(value="phoneNumber", required = true) String phoneNumber) {
-		update.updateInit(mav, id, name, phoneNumber);
+			@RequestParam(value="phoneNumber", required = true) String phoneNumber,
+			@RequestParam(value="keyword", required = true) String keyword,
+			@RequestParam(value="pageNumber", required = true) int pageNumber) {
+		update.updateInit(mav, id, name, phoneNumber, keyword, pageNumber);
 		return mav;
 	}
 
 	/**更新処理*/
 	@RequestMapping(value = "/updatenew", method = RequestMethod.POST)
 	public ModelAndView update(UpdateForm input, ModelAndView mav,
-			@RequestParam(value="id", required = true) int id) {
-		update.update(input, mav, id);
+			@RequestParam(value="id", required = true) int id,
+			@RequestParam(value="keyword", required = true) String keyword,
+			@RequestParam(value="pageNumber", required = true) int pageNumber) {
+		update.update(input, mav, id, keyword, pageNumber);
 		mav.setViewName("update");
+		return mav;
+	}
+
+	/**一覧画面に戻る*/
+	@RequestMapping(value = "/backToSearch", method = RequestMethod.POST)
+	public ModelAndView backToSearch(SearchForm input, ModelAndView mav,
+			@RequestParam(value="pageNumber", required = true) int pageNumber) {
+		search.execute(input, mav, pageNumber);
 		return mav;
 	}
 }

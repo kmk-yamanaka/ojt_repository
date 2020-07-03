@@ -20,7 +20,13 @@ public class RegistService {
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
 
-	public void regist(RegistForm input, ModelAndView mav) {
+	public void registInit(ModelAndView mav, String keyword, int pageNumber) {
+		mav.addObject("keyword", keyword);
+		mav.addObject("pageNumber", pageNumber);
+		mav.setViewName("regist");
+	}
+
+	public void regist(RegistForm input, ModelAndView mav, String keyword, int pageNumber) {
 		String name = input.getName();
 		String areaCode = input.getAreaCode();
 		String cityCode = input.getCityCode();
@@ -31,7 +37,9 @@ public class RegistService {
 		cityCode = HandleSpace.deleteSpacePhoneNumber(cityCode);
 		subscriberNumber = HandleSpace.deleteSpacePhoneNumber(subscriberNumber);
 
-		if (ValidationUtil.isValidAtRegistOrUpdate(name, areaCode, cityCode, subscriberNumber, mav)) {
+		boolean isValid = ValidationUtil.isValidAtRegistOrUpdate(name, areaCode, cityCode,
+				subscriberNumber, mav);
+		if (isValid) {
 			String phoneNumber = areaCode + Constants.HYPHEN + cityCode + Constants.HYPHEN + subscriberNumber;
 			phoneBookRepository.regist(name, phoneNumber);
 			mav.addObject("msg", Message.REGIST);
@@ -41,6 +49,9 @@ public class RegistService {
 		mav.addObject("areaCode", areaCode);
 		mav.addObject("cityCode", cityCode);
 		mav.addObject("subscriberNumber", subscriberNumber);
+		mav.addObject("isValid", isValid);
+		mav.addObject("keyword", keyword);
+		mav.addObject("pageNumber", pageNumber);
 	}
 
 }

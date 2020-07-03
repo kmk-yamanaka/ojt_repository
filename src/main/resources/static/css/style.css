@@ -14,26 +14,227 @@ h1 {
 	background-color: #b0c4de;
 }
 
+.registInit {
+	position:relative;
+	left:250px;
+	top:auto;
+	padding: 5px 10px;
+	color: #fff;
+    border-style: none;
+    box-shadow: 2px 2px 3px 1px #666;
+    background: linear-gradient(#ffb6c1 0%, red 100%);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.registInit:hover {
+    opacity: 0.8;
+}
+
+.registInit:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+.search {
+	padding: 5px 10px;
+	color: #fff;
+    border-style: none;
+    box-shadow: 2px 2px 3px 1px #666;
+    background: linear-gradient(#00ffff 0%,#4169e1 100%);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.search:hover {
+    opacity: 0.8;
+}
+
+.search:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
 #table {
 	margin-left: auto;
 	margin-right: auto;
+	background-color:#fff;
 }
 
-.accountInfo {
-	margin-top: 20px;
-	margin-right: 10px;
-	text-align: right;
+.names,.phoneNumbers  {
+	padding: 0px 10px;
 }
 
-.button {
+.updateInit {
+	padding: 5px 10px;
+	color: #fff;
+    border-style: none;
+    background: linear-gradient(#00bfff 0%,#4169e1 100%);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.updateInit:hover {
+    opacity: 0.8;
+}
+
+.updateInit:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+.delete {
+	padding: 5px 10px;
+	color: #fff;
+    border-style: none;
+    background: linear-gradient(#ff8c00 0%,#d2691e 100%);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.delete:hover {
+    opacity: 0.8;
+}
+
+.delete:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+.paging {
 	display: inline-flex;
-	margin-bottom: 10px;
+	position:relative;
+	left:170px;
+	top:20px;
 }
 
-.regist{
-	margin-top:30px;
-	display: inline-block;
-	left: 0;
+.back {
+	margin-right:10px;
+	padding: 5px 10px;
+	color: #fff;
+    border-style: none;
+    box-shadow: 2px 2px 3px 1px #666;
+    background: linear-gradient(#00ffff 0%,#4169e1 100%);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.back:hover {
+    opacity: 0.8;
+}
+
+.back:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+input[type="submit"][disabled] {
+	background: linear-gradient(#f5f5f5 0%,#c0c0c0 100%);
+    cursor:not-allowed;
+}
+
+.next {
+	padding: 5px 10px;
+	color: #fff;
+    border-style: none;
+    box-shadow: 2px 2px 3px 1px #666;
+    background: linear-gradient(#00ffff 0%,#4169e1 100%);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.next:hover {
+    opacity: 0.8;
+}
+
+.next:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+.searchInit {
+	position:relative;
+	right:200px;
+	top:20px;
+	padding: 5px 10px;
+	color: #fff;
+    border-style: none;
+    box-shadow: 2px 2px 3px 1px #666;
+    background: linear-gradient(#00bfff 0%,#00008b 100%);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.searchInit:hover {
+    opacity: 0.8;
+}
+
+.searchInit:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+.registAndUpdate{
+	position:relative;
+	left:35px;
+	margin-top:35px;
+	padding: 5px 17px;
+	color: #fff;
+    border-style: none;
+    box-shadow: 2px 2px 3px 1px #666;
+    background: linear-gradient(#ffb6c1 0%, red 100%);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.registAndUpdate:hover {
+    opacity: 0.8;
+}
+
+.registAndUpdate:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+
+.backToSearch{
+	position:relative;
+	right:100px;
+	top:-30px;
+	padding: 5px 10px;
+	color: #fff;
+    border-style: none;
+    box-shadow: 2px 2px 3px 1px #666;
+    background: linear-gradient(#00bfff 0%,#00008b 100%);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.backToSearch:hover {
+    opacity: 0.8;
+}
+
+.backToSearch:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
 }
 
 .inputedPhoneNumber{

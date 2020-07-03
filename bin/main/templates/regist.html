@@ -25,14 +25,18 @@
 		<script>
 			function js_alert(){
 				<!--var message = th:text="${msg}"-->
-				window.alert("登録が完了しました");
 				<!--window.alert("登録が完了しました");-->
 			}
 		</script>
-		<input class="regist" type="submit" name="regist" value="登録" onclick="js_alert()" />
+		<input type="hidden" name="isValid" th:value="${isValid}">
+		<input type="hidden" name="keyword" th:value="${keyword}">
+		<input type="hidden" name="pageNumber" th:value="${pageNumber}">
+		<input class="registAndUpdate" type="submit" name="regist" value="登録" onclick="js_alert()" />
 	</form>
-	<form method="post" action="/search">
-		<input class="regist" type="submit" value="◀戻る" />
+	<form method="post" action="/backToSearch">
+		<input type="hidden" name="keyword" th:value="${keyword}">
+		<input type="hidden" name="pageNumber" th:value="${pageNumber}">
+		<input class="backToSearch" type="submit" value="◀戻る" />
 	</form>
 </body>
 </html>

@@ -23,7 +23,8 @@ public class UpdateService {
 
 	public void updateInit(ModelAndView mav, @RequestParam(value = "id", required = true) int id,
 			@RequestParam(value = "name", required = true) String name,
-			@RequestParam(value = "phoneNumber", required = true) String phoneNumber) {
+			@RequestParam(value = "phoneNumber", required = true) String phoneNumber
+			, String keyword, int pageNumber) {
 
 		String[] phoneNumbers = phoneNumber.split(Constants.HYPHEN, 0);
 		String areaCode = phoneNumbers[0];
@@ -35,11 +36,14 @@ public class UpdateService {
 		mav.addObject("areaCode", areaCode);
 		mav.addObject("cityCode", cityCode);
 		mav.addObject("subscriberNumber", subscriberNumber);
+		mav.addObject("keyword", keyword);
+		mav.addObject("pageNumber", pageNumber);
 		mav.setViewName("update");
 	}
 
 	public void update(UpdateForm input, ModelAndView mav,
-			@RequestParam(value = "id", required = true) int id) {
+			@RequestParam(value = "id", required = true) int id
+			, String keyword, int pageNumber) {
 		String name = input.getName();
 		String areaCode = input.getAreaCode();
 		String cityCode = input.getCityCode();
@@ -61,6 +65,8 @@ public class UpdateService {
 		mav.addObject("areaCode", areaCode);
 		mav.addObject("cityCode", cityCode);
 		mav.addObject("subscriberNumber", subscriberNumber);
+		mav.addObject("keyword", keyword);
+		mav.addObject("pageNumber", pageNumber);
 	}
 
 }

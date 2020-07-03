@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.PhoneBookRepository;
@@ -29,7 +28,7 @@ public class SearchService {
 	private PhoneBookRepository phoneBookRepository;
 
 	/**入力された名前と電話帳リストにある名前を比較して合致するものをsessionに格納するメソッド*/
-	public void execute(SearchForm input, ModelAndView mav) {
+	public void execute(SearchForm input, ModelAndView mav, int pageNumber) {
 		List<PhoneBookEntity> phoneBookList = new ArrayList<>();
 		String keyword = input.getKeyword(); //入力された名前を取得
 		keyword = HandleSpace.handleSpaceName(keyword); // 空白処理メソッドの呼び出し
@@ -37,15 +36,17 @@ public class SearchService {
 			phoneBookList = phoneBookRepository.findAll(); // に引っかかる場合は初期表示と同じ処理をする
 		} else {
 			phoneBookList = phoneBookRepository.findResult(keyword);
+			//pageNumber = 1;
 		}
 		session.setAttribute("phoneBookList", phoneBookList);
 
-		int pageNumber = 1;
+		//pageNumber = 1;
+		//int pageNumber = 1;
 		double lastPageNum = Math.ceil((double) phoneBookList.size() / Constants.DATA_DISPLAYED_MAX);
 		int lastPageNumber = (int) lastPageNum;
-		if (lastPageNumber == 0) {
-			lastPageNumber++;
-		}
+//		if (lastPageNumber == 0) {
+//			lastPageNumber++;
+//		}
 		page(pageNumber, lastPageNumber, input, mav);
 	}
 
@@ -60,7 +61,17 @@ public class SearchService {
 		List<PhoneBookEntity> phoneBookList = new ArrayList<>();
 		phoneBookList = (List<PhoneBookEntity>) session.getAttribute("phoneBookList");
 		List<SearchResultForm> searchList = new ArrayList<>();
+//		if(pageNumber == 0) {
+//			pageNumber = 1;
+//		}
 		int firstIndex = Constants.DATA_DISPLAYED_MAX * (pageNumber - 1);
+		if(pageNumber == 0) {
+			firstIndex = 0;
+		}
+//		if(firstIndex > phoneBookList.size()) {
+//			pageNumber = 1;
+//			firstIndex = 0;
+//		}
 		int max = firstIndex + Constants.DATA_DISPLAYED_MAX;
 		for (int i = firstIndex; i < max; i++) {
 			if (i == phoneBookList.size()) {
@@ -73,11 +84,19 @@ public class SearchService {
 			sf.setPhoneNumber(entity.getPhoneNumber());
 			searchList.add(sf);
 		}
+
+		String keyword = input.getKeyword();
+		mav.addObject("keyword", keyword);
 		mav.addObject("searchList", searchList);
+		if(lastPageNumber == 0) {
+			pageNumber = 0;
+		}
+		boolean isInitial = pageNumber <= 1 && StringUtils.isEmpty(keyword);
+		mav.addObject("isInitial", isInitial);
 		mav.addObject("pageNumber", pageNumber);
 		mav.addObject("lastPageNumber", lastPageNumber);
 		mav.setViewName("search");
-		SearchService.searchMsg(searchList, phoneBookList, input, mav);
+		SearchService.searchMsg(searchList, phoneBookList, pageNumber, lastPageNumber, input, mav);
 	}
 
 	/**
@@ -91,6 +110,8 @@ public class SearchService {
 		if (pageNumber != lastPageNumber) {
 			pageNumber++;
 		}
+//		String keyword = input.getKeyword();
+//		mav.addObject("keyword", keyword);
 		page(pageNumber, lastPageNumber, input, mav);
 	}
 
@@ -125,9 +146,11 @@ public class SearchService {
 	 * @param mav
 	 */
 	private static void searchMsg(List<SearchResultForm> searchList, List<PhoneBookEntity> phoneBookList,
-			SearchForm input, ModelAndView mav) {
-		mav.addObject("msg", searchList.size() + Message.DISPLAYED_COUNT + phoneBookList.size()
+			int pageNumber, int lastPageNumber, SearchForm input, ModelAndView mav) {
+		mav.addObject("dataNumberMsg", searchList.size() + Message.DISPLAYED_COUNT + phoneBookList.size()
 				+ Message.TOTAL_COUNT);
+		mav.addObject("pageNumberMsg", pageNumber + Message.PAGE_NUMBER + lastPageNumber
+				+ Message.LAST_PAGE_NUMBER);
 		String inputName = input.getKeyword();
 		if (inputName != null && !isValid(inputName)) {
 			mav.addObject("msg", Message.NAME_LIMIT);
@@ -138,9 +161,12 @@ public class SearchService {
 	 * 削除メソッド
 	 * @param id
 	 */
-	public void delete(ModelAndView mav, @RequestParam(value = "id", required = true) int id) {
+	public void delete(ModelAndView mav, int id, SearchForm input, int pageNumber) {
 		phoneBookRepository.delete(id);
 		mav.addObject("msg", Message.DELETE);
+		String keyword = input.getKeyword();
+		mav.addObject("keyword", keyword);
+		mav.addObject("pageNumber", pageNumber);
 	}
 
 }

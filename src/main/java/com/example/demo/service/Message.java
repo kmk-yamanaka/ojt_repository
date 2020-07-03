@@ -7,7 +7,13 @@ public class Message {
 	public static final String DISPLAYED_COUNT = "件表示/";
 
 	/**合計取得件数*/
-	public static final String TOTAL_COUNT = "件中";
+	public static final String TOTAL_COUNT = "件中　";
+
+	/**現在のページ数*/
+	public static final String PAGE_NUMBER = "ページ目/";
+
+	/**合計ページ数*/
+	public static final String LAST_PAGE_NUMBER = "ページ中";
 
 	/**検索にヒットした際に出すメッセージ*/
 	public static final String SEARCH_HIT_COUNT = "件ヒットしました";
@@ -34,9 +40,9 @@ public class Message {
 	public static final String DELETE = "削除が完了しました";
 
 	/**データを登録した際に出すメッセージ*/
-	public static final String REGIST = "登録が完了しました。";
+	public static final String REGIST = "登録が完了しました";
 
 	/**データを更新した際に出すメッセージ*/
-	public static final String UPDATE = "更新が完了しました。";
+	public static final String UPDATE = "更新が完了しました";
 
 }
