@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -164,6 +166,30 @@ public class SearchService {
 	public void delete(ModelAndView mav, int id, SearchForm input, int pageNumber) {
 		phoneBookRepository.delete(id);
 		mav.addObject("msg", Message.DELETE);
+		String keyword = input.getKeyword();
+		mav.addObject("keyword", keyword);
+		mav.addObject("pageNumber", pageNumber);
+	}
+
+	public void export(SearchForm input, ModelAndView mav, int pageNumber) {
+		List<PhoneBookEntity> phoneBookList = new ArrayList<>();
+		phoneBookList = phoneBookRepository.findAll();
+
+		Map<String, Integer> prefectureCount = new HashMap<>();
+
+		for(PhoneBookEntity phoneBook:phoneBookList) {
+			int count = 0;
+			String prefecture = phoneBook.getPrefecture();
+			if(prefectureCount.containsKey(prefecture)) {
+				count = prefectureCount.get(prefecture);
+			}
+			prefectureCount.put(prefecture, count + 1);
+		}
+
+		prefectureCount.forEach((prefecture, count) -> {
+			System.out.println(prefecture + "," + count);
+		});
+
 		String keyword = input.getKeyword();
 		mav.addObject("keyword", keyword);
 		mav.addObject("pageNumber", pageNumber);

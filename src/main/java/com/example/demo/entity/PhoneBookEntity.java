@@ -35,6 +35,11 @@ public class PhoneBookEntity {
 	 */
 	@Column(name = "is_delete")
 	private boolean isDelete;
+	/**
+	 * 都道府県
+	 */
+	@Column(name = "prefecture")
+	private String prefecture;
 
 	public int getId() {
 		return id;
@@ -60,11 +65,19 @@ public class PhoneBookEntity {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public boolean deleteFlag() {
+	public boolean getIsDelete() {
 		return isDelete;
 	}
 
-	public void setDelete(boolean isDelete) {
+	public void setIsDelete(boolean isDelete) {
 		this.isDelete = isDelete;
+	}
+
+	public String getPrefecture() {
+		return prefecture;
+	}
+
+	public void setPrefecture(String prefecture) {
+		this.prefecture = prefecture;
 	}
 }

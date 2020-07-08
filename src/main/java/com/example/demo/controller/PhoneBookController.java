@@ -71,6 +71,15 @@ public class PhoneBookController {
 //		return searchInit(mav);
 	}
 
+	/**エクスポート*/
+	@RequestMapping(value = "/export", method = RequestMethod.POST)
+	public ModelAndView export(ModelAndView mav, SearchForm input,
+			@RequestParam(value="pageNumber", required = true) int pageNumber) {
+		search.export(input, mav, pageNumber);
+		search.execute(input, mav, pageNumber);
+		return mav;
+	}
+
 	/**登録画面へ遷移*/
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView registInit(ModelAndView mav,

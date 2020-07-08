@@ -12,6 +12,11 @@
 	<input type="hidden" name="pageNumber" th:value="${pageNumber}">
 	<input class="registInit" type="submit" value="新規登録" />
 </form>
+<form method="post" action="/export">
+	<input type="hidden" name="keyword" th:value="${keyword}">
+	<input type="hidden" name="pageNumber" th:value="${pageNumber}">
+	<input class="registInit" type="submit" value="エクスポート" />
+</form>
 <span class="msg" th:text="${msg}"></span>
 <p>検索したい名前を入力してください</p>
 <form method="post" action="/search">
